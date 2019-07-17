@@ -1,9 +1,11 @@
 package de.rcblum.stream.deck.device;
 
+import org.hid4java.HidDevice;
+
+import de.rcblum.stream.deck.device.hid4java.HidDeviceWrapper;
 import de.rcblum.stream.deck.event.StreamKeyListener;
 import de.rcblum.stream.deck.items.StreamItem;
 import de.rcblum.stream.deck.util.SDImage;
-import purejavahidapi.HidDevice;
 
 /**
  * MIT License
@@ -67,7 +69,7 @@ public interface IStreamDeck {
 	 * 
 	 * @return HidDevice representation the stream deck.
 	 */
-	HidDevice getHidDevice();
+	HidDeviceWrapper getHidDevice();
 
 	/**
 	 * Removes a registered Key. Queues update to the stream deck

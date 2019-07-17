@@ -23,14 +23,15 @@ import javax.swing.event.MouseInputAdapter;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hid4java.HidDevice;
 
+import de.rcblum.stream.deck.device.hid4java.HidDeviceWrapper;
 import de.rcblum.stream.deck.event.KeyEvent;
 import de.rcblum.stream.deck.event.StreamKeyListener;
 import de.rcblum.stream.deck.event.KeyEvent.Type;
 import de.rcblum.stream.deck.items.StreamItem;
 import de.rcblum.stream.deck.util.IconHelper;
 import de.rcblum.stream.deck.util.SDImage;
-import purejavahidapi.HidDevice;
 
 /**
  * MIT License
@@ -184,7 +185,7 @@ public class SoftStreamDeck implements IStreamDeck {
 	}
 
 	@Override
-	public HidDevice getHidDevice() {
+	public HidDeviceWrapper getHidDevice() {
 		return streamDeck != null ? this.streamDeck.getHidDevice() : null;
 	}
 

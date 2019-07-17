@@ -11,15 +11,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hid4java.HidDevice;
 
+import de.rcblum.stream.deck.device.hid4java.HidDeviceWrapper;
+import de.rcblum.stream.deck.device.hid4java.listener.InputReportListener;
 import de.rcblum.stream.deck.event.KeyEvent;
 import de.rcblum.stream.deck.event.KeyEvent.Type;
 import de.rcblum.stream.deck.event.StreamKeyListener;
 import de.rcblum.stream.deck.items.StreamItem;
 import de.rcblum.stream.deck.util.IconHelper;
 import de.rcblum.stream.deck.util.SDImage;
-import purejavahidapi.HidDevice;
-import purejavahidapi.InputReportListener;
 
 /**
  * Provides low level access to a connected stream deck. Allows to do the
@@ -315,7 +316,7 @@ public class StreamDeck implements InputReportListener, IStreamDeck {
 	/**
 	 * HidDevice associated with the connected ESD
 	 */
-	private HidDevice hidDevice = null;
+	private HidDeviceWrapper hidDevice = null;
 
 	/**
 	 * Brightness command for this instance.
@@ -385,13 +386,13 @@ public class StreamDeck implements InputReportListener, IStreamDeck {
 	 * @param brightness
 	 *            Brightness from 0 .. 99
 	 */
-	public StreamDeck(HidDevice streamDeck, int brightness, int keyCount) {
+	public StreamDeck(HidDeviceWrapper streamDeck, int brightness, int keyCount) {
 		super();
 		this.keyCount = keyCount;
 		this.keys = new StreamItem[this.getKeySize()];
 		this.keysPressed = new boolean[this.getKeySize()];
 		this.hidDevice = streamDeck;
-		this.hidDevice.setInputReportListener(this);
+		this.hidDevice.addInputReportListener(this);
 		this.brightness[5] = (byte) brightness;
 		listerners = new ArrayList<>(5);
 		this.sendWorker = new Thread(new DeckWorker());
@@ -406,7 +407,7 @@ public class StreamDeck implements InputReportListener, IStreamDeck {
 	 * Sends reset-command to ESD
 	 */
 	private void internalReset() {
-		hidDevice.setFeatureReport(RESET_DATA[0], Arrays.copyOfRange(RESET_DATA, 1, RESET_DATA.length), RESET_DATA.length-1);
+		hidDevice.sendFeatureReport(Arrays.copyOfRange(RESET_DATA, 1, RESET_DATA.length), RESET_DATA[0]);
 	}
 
 
@@ -414,7 +415,7 @@ public class StreamDeck implements InputReportListener, IStreamDeck {
 	 * Sends brightness-command to ESD
 	 */
 	private void internalUpdateBrightnes() {
-		hidDevice.setFeatureReport(this.brightness[0], Arrays.copyOfRange(this.brightness, 1, this.brightness.length), this.brightness.length-1);
+		hidDevice.sendFeatureReport(Arrays.copyOfRange(this.brightness, 1, this.brightness.length), this.brightness[0]);
 	}
 	
 	@Override
@@ -461,8 +462,9 @@ public class StreamDeck implements InputReportListener, IStreamDeck {
 	public synchronized void internalDrawImage(int keyIndex, SDImage imgData) {
 		byte[] page1 = generatePage1(keyIndex, imgData.sdImage);
 		byte[] page2 = generatePage2(keyIndex, imgData.sdImage);
-		this.hidDevice.setOutputReport((byte) 0x02, page1, page1.length);
-		this.hidDevice.setOutputReport((byte) 0x02, page2, page2.length);
+		this.hidDevice.write(page1, page1.length, (byte) 0x02);
+		this.hidDevice.write(page2, page2.length, (byte) 0x02);
+		// this.hidDevice.setOutputReport((byte) 0x02, page2, page2.length);
 	}
 
 	private void fireKeyChangedEvent(int i, boolean keyPressed) {
@@ -518,7 +520,7 @@ public class StreamDeck implements InputReportListener, IStreamDeck {
 	 * @see de.rcblum.stream.deck.IStreamDeck#getHidDevice()
 	 */
 	@Override
-	public HidDevice getHidDevice() {
+	public HidDeviceWrapper getHidDevice() {
 		return hidDevice;
 	}
 
