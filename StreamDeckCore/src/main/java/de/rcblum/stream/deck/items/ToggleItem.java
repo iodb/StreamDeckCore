@@ -1,5 +1,7 @@
 package de.rcblum.stream.deck.items;
 
+import java.awt.image.BufferedImage;
+
 import de.rcblum.stream.deck.event.KeyEvent;
 import de.rcblum.stream.deck.util.IconHelper;
 import de.rcblum.stream.deck.util.SDImage;
@@ -52,7 +54,9 @@ public abstract class ToggleItem extends AbstractStreamItem {
 
 	private void updateIcon() {
 		if (this.isOn) {
-			this.rawImg = IconHelper.applyImage(this.unmodded, IconHelper.getImageFromResource("/resources/icons/selected.png"));
+			BufferedImage selected = IconHelper.getImageFromResource("/resources/icons/selected.png");
+			System.out.println("Selected-Frame: " + selected);
+			this.rawImg = IconHelper.applyImage(this.unmodded, selected);
 		}
 		else {
 			this.rawImg = this.unmodded;
