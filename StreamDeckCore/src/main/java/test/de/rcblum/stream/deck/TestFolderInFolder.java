@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import de.rcblum.stream.deck.StreamDeckController;
-import de.rcblum.stream.deck.device.IStreamDeck;
-import de.rcblum.stream.deck.device.StreamDeckDevices;
+import de.rcblum.stream.deck.device.general.IStreamDeck;
+import de.rcblum.stream.deck.device.hid4java.StreamDeckDevices;
 import de.rcblum.stream.deck.items.ExecutableItem;
 import de.rcblum.stream.deck.items.FolderItem;
 import de.rcblum.stream.deck.items.StreamItem;
@@ -16,6 +16,7 @@ public class TestFolderInFolder {
 	public static void main(String[] args) throws IOException {
 		System.setProperty("log4j.configurationFile", TestAnimationStack.class.getResource("/resources/log4j.xml").getFile());
 		IStreamDeck sd = StreamDeckDevices.getStreamDeck();
+		sd.init();
 		sd.reset();
 		sd.setBrightness(50);
 		// Level 2

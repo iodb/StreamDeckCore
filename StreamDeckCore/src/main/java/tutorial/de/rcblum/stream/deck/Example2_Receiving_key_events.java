@@ -1,7 +1,7 @@
 package tutorial.de.rcblum.stream.deck;
 
-import de.rcblum.stream.deck.device.IStreamDeck;
-import de.rcblum.stream.deck.device.StreamDeckDevices;
+import de.rcblum.stream.deck.device.general.IStreamDeck;
+import de.rcblum.stream.deck.device.hid4java.StreamDeckDevices;
 import de.rcblum.stream.deck.event.KeyEvent;
 import de.rcblum.stream.deck.event.StreamKeyListener;
 
@@ -11,8 +11,10 @@ public class Example2_Receiving_key_events {
 	public static void main(String[] args) throws IOException {
 		// Get the first connected (or software) ESD:
 		IStreamDeck streamDeck = StreamDeckDevices.getStreamDeck();
+		// Init
+		streamDeck.init();
 		// Reset the ESD so we can display our icon on it:
-		streamDeck.reset();
+		// streamDeck.reset();
 		// Set the brightness to 75%
 		streamDeck.setBrightness(75);
 		// Add the Listener to the stream deck:

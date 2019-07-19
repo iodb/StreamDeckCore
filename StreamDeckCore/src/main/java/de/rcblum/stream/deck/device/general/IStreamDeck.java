@@ -1,4 +1,4 @@
-package de.rcblum.stream.deck.device;
+package de.rcblum.stream.deck.device.general;
 
 import org.hid4java.HidDevice;
 
@@ -132,5 +132,10 @@ public interface IStreamDeck {
 	 * @param no Key no
 	 */
 	public void releaseButton(int no);
+
+	/**
+	 *  Initializes the Stream Deck
+	 */
+	void init();
 
 }

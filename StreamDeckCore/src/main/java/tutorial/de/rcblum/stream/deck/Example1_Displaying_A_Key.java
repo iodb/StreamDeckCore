@@ -1,7 +1,7 @@
 package tutorial.de.rcblum.stream.deck;
 
-import de.rcblum.stream.deck.device.IStreamDeck;
-import de.rcblum.stream.deck.device.StreamDeckDevices;
+import de.rcblum.stream.deck.device.general.IStreamDeck;
+import de.rcblum.stream.deck.device.hid4java.StreamDeckDevices;
 import de.rcblum.stream.deck.util.IconHelper;
 import de.rcblum.stream.deck.util.SDImage;
 
@@ -12,6 +12,7 @@ public class Example1_Displaying_A_Key {
 	public static void main(String[] args) throws IOException {
 		// Get the first connected (or software) ESD:
 		IStreamDeck streamDeck = StreamDeckDevices.getStreamDeck();
+		streamDeck.init();
 		// Reset the ESD so we can display our icon on it:
 		streamDeck.reset();
 		// Set the brightness to 75%

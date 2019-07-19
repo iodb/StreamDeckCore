@@ -1,13 +1,18 @@
 package de.rcblum.stream.deck.device.hid4java;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hid4java.HidDevice;
 
 import de.rcblum.stream.deck.device.hid4java.listener.InputReportListener;
 
-public class HidDeviceWrapper  {
+public class HidDeviceWrapper {
+	
+	private static final Logger LOGGER = LogManager.getLogger(HidDeviceWrapper.class);
 
 	private HidDevice device = null;
 	
@@ -18,13 +23,18 @@ public class HidDeviceWrapper  {
 	public HidDeviceWrapper(HidDevice device) {
 		super();
 		this.device = device;
-		if (!this.device.isOpen())
-			this.device.open();
-		if (this.device.isOpen()) {
+		init();
+	}
+	
+
+	public boolean init() {
+		if(!this.isOpen()) {
+			boolean r = this.open();
 			inputReportThread = new Thread(new InputReportPuller());
 			inputReportThread.setDaemon(true);
 			inputReportThread.start();
 		}
+		return this.isOpen();
 	}
 	
 	
@@ -128,11 +138,15 @@ public class HidDeviceWrapper  {
 		// TODO Auto-generated method stub
 		boolean op = device.open();
 		if(op) {
-			if (inputReportThread.isAlive())
+			if (inputReportThread != null && inputReportThread.isAlive())
 				inputReportThread.interrupt();
 			inputReportThread = new Thread(new InputReportPuller());
 		}
 		return op;
+	}
+	
+	public void close() {
+		device.close();
 	}
 
 	
@@ -185,11 +199,17 @@ public class HidDeviceWrapper  {
 		@Override
 		public void run() {
 			byte[] data = new byte[10_000];
+			byte[] report = new byte[15];
 			while (running) {
-				if ( HidDeviceWrapper.this.device.isOpen()) {
-					int read = HidDeviceWrapper.this.device.getFeatureReport(data, (byte) 0x01);
-					for (InputReportListener inputReportListener : reportListener) {
-						inputReportListener.onInputReport(device, (byte) 0x01, data, read);
+				if (HidDeviceWrapper.this.device.isOpen()) {
+					int read = HidDeviceWrapper.this.device.read(data);
+					if (read > 0) {
+						byte repNo = data[0];
+						System.arraycopy(data, 1, report, 0, 15);
+						System.out.println("Report Data: " + Arrays.toString(report));
+						for (InputReportListener inputReportListener : reportListener) {
+							inputReportListener.onInputReport(device, repNo, report, read);
+						}
 					}
 				}
 			}

@@ -1,4 +1,4 @@
-package de.rcblum.stream.deck.device;
+package de.rcblum.stream.deck.device.general;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -105,7 +105,7 @@ public class SoftStreamDeck implements IStreamDeck {
 	private ConcurrentLinkedQueue<IconUpdate> updateQueue = new ConcurrentLinkedQueue<>();
 
 	
-	public SoftStreamDeck(String name, IStreamDeck streamDeck) {
+	public SoftStreamDeck(String name, IStreamDeck streamDeck, boolean visible) {
 		this.streamDeck = streamDeck;
 		this.keys = new StreamItem[streamDeck != null ? this.streamDeck.getKeySize() : 15];
 		listerners = new ArrayList<>(4);
@@ -465,6 +465,12 @@ public class SoftStreamDeck implements IStreamDeck {
 	        int y = location.y - pressed.getY() + me.getY();
 	        frame.setLocation(x, y);
 	     }
+	}
+
+	@Override
+	public void init() {
+		if (this.isHardware())
+			this.streamDeck.init();
 	}
 
 }

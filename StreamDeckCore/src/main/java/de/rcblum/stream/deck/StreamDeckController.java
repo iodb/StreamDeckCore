@@ -5,7 +5,7 @@ import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.rcblum.stream.deck.device.IStreamDeck;
+import de.rcblum.stream.deck.device.general.IStreamDeck;
 import de.rcblum.stream.deck.event.KeyEvent;
 import de.rcblum.stream.deck.event.KeyEvent.Type;
 import de.rcblum.stream.deck.event.StreamKeyListener;
@@ -113,6 +113,7 @@ public class StreamDeckController implements StreamKeyListener, IconUpdateListen
 		if (this.back == null)
 			this.back = IconHelper.addText(IconHelper.getImage("temp://FOLDER"), "back", StreamItem.TEXT_POS_BOTTOM);
 		this.streamDeck = streamDeck;
+		this.streamDeck.init();
 		this.streamDeck.addKeyListener(this);
 		this.root = root;
 		while (this.root.getParent() != null)
@@ -306,7 +307,7 @@ public class StreamDeckController implements StreamKeyListener, IconUpdateListen
 	 * @param root New root folder
 	 */
 	public void setRoot(StreamItem root) {
-		LOGGER.debug(String.format("New root folder for %s", this.streamDeck.getHidDevice() != null ? this.streamDeck.getHidDevice().getHidDeviceInfo().getProductString() : "SoftStreamDeck"));
+		LOGGER.debug(String.format("New root folder for %s", this.streamDeck.getHidDevice() != null ? this.streamDeck.getHidDevice().getProduct() : "SoftStreamDeck"));
 		this.root = root;
 		while (this.root.getParent() != null)
 			this.root = this.root.getParent();

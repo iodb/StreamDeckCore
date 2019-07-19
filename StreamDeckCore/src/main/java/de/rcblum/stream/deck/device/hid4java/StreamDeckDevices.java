@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +16,9 @@ import org.hid4java.HidServices;
 import org.hid4java.HidServicesListener;
 import org.hid4java.event.HidServicesEvent;
 
+import de.rcblum.stream.deck.device.general.IStreamDeck;
+import de.rcblum.stream.deck.device.general.SoftStreamDeck;
+import de.rcblum.stream.deck.device.general.StreamDeck;
 import de.rcblum.stream.deck.device.hid4java.listener.StreamDeckAttachListener;
 
 /**
@@ -79,8 +83,24 @@ public class StreamDeckDevices implements HidServicesListener {
 			if (hidDevice.getVendorId() == VENDOR_ID && hidDevice.getProductId() == PRODUCT_ID) 
 				connectedDecks.put(hidDevice, new HidDeviceWrapper(hidDevice));
 		}
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				deinit();
+			}
+		});
 	}
-
+	private static void deinit() {
+		for (HidDeviceWrapper hidW : connectedDecks.values()) {
+			if (hidW.isOpen()) {
+				StreamDeck sd = new StreamDeck(hidW, 0, 15);
+				sd.reset();
+				sd.setBrightness(0);
+				sd.waitForCompletion();
+				hidW.close();
+			}
+		}
+	}
 	@Override
 	public void hidDeviceAttached(HidServicesEvent arg0) {
 		if (arg0.getHidDevice().getVendorId() == VENDOR_ID && arg0.getHidDevice().getProductId() == PRODUCT_ID) {
@@ -101,8 +121,13 @@ public class StreamDeckDevices implements HidServicesListener {
 
 	}
 	
-	public static List<HidDeviceWrapper> getStreamDecks() {
-		return new ArrayList<>(connectedDecks.values());
+	public static List<IStreamDeck> getStreamDecks() {
+		return connectedDecks.values().stream().map(h -> (IStreamDeck)new SoftStreamDeck(h.getId() , new StreamDeck(h, 90, 15), enableSoftwareStreamDeck)).collect(Collectors.toList());
+	}
+	
+	public static IStreamDeck getStreamDeck() {
+		HidDeviceWrapper hidW = connectedDecks.values().stream().findFirst().orElse(null);
+		return hidW != null ? new SoftStreamDeck(hidW.getId(), new StreamDeck(hidW, 90, 15), enableSoftwareStreamDeck) : null;
 	}
 
 	@Override
@@ -120,6 +145,14 @@ public class StreamDeckDevices implements HidServicesListener {
 
 	private static void fireStreamDeckDetached(HidDeviceWrapper hidDev) {
 		listeners.stream().forEach(l -> l.streamDeckDetached(hidDev));
+	}
+
+	public static void enableSoftwareStreamDeck() {
+		enableSoftwareStreamDeck = true;
+	}
+
+	public static void disableSoftwareStreamDeck() {
+		enableSoftwareStreamDeck = false;
 	}
 
 }

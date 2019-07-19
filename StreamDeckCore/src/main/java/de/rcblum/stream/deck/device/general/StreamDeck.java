@@ -1,4 +1,4 @@
-package de.rcblum.stream.deck.device;
+package de.rcblum.stream.deck.device.general;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -658,5 +658,10 @@ public class StreamDeck implements InputReportListener, IStreamDeck {
 	public void releaseButton(int no) {
 		LOGGER.debug(String.format("Virtual button released: Key-ID: %d", no));
 		this.pushButton(no);
+	}
+
+	@Override
+	public void init() {
+		this.hidDevice.init();
 	}
 }

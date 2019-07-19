@@ -1,7 +1,7 @@
 package tutorial.de.rcblum.stream.deck;
 
-import de.rcblum.stream.deck.device.IStreamDeck;
-import de.rcblum.stream.deck.device.StreamDeckDevices;
+import de.rcblum.stream.deck.device.general.IStreamDeck;
+import de.rcblum.stream.deck.device.hid4java.StreamDeckDevices;
 import de.rcblum.stream.deck.items.ExecutableItem;
 import de.rcblum.stream.deck.items.RunnableItem;
 import de.rcblum.stream.deck.util.IconHelper;
@@ -14,7 +14,7 @@ public class Example3_Binding_a_build_in_StreamItem_to_the_StreamDeck {
 	public static void main(String[] args) throws IOException {
 		// Create the ExecutableItem with the icon "icon1.png":
 		SDImage img1 = IconHelper.loadImage("resources" + File.separator + "icon1.png");
-		ExecutableItem executableItem = new ExecutableItem(img1,"explorer.exe");
+		ExecutableItem executableItem = new ExecutableItem(img1,"bash");
 		// Create the RunnableItem with the icon "icon2.png":
 		SDImage img2 = IconHelper.loadImage("resources" + File.separator + "icon2.png");
 		RunnableItem runnableItem = new RunnableItem(img2,
@@ -27,6 +27,7 @@ public class Example3_Binding_a_build_in_StreamItem_to_the_StreamDeck {
 		// Now bind the two items to the 6th and 10th key on the StreamDeck:
 		// Get the first connected (or software) ESD:
 		IStreamDeck streamDeck = StreamDeckDevices.getStreamDeck();
+		streamDeck.init();
 		// Reset the ESD so we can display our icon on it:
 		streamDeck.reset();
 		// Set the brightness to 75%
