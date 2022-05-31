@@ -1,4 +1,4 @@
-package de.rcblum.stream.deck.util;
+package io.github.vveird.stream.deck.util;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,9 +6,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import io.github.vveird.stream.deck.items.animation.AnimationStack;
-import io.github.vveird.stream.deck.util.IconHelper;
-import io.github.vveird.stream.deck.util.SDImage;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
 class IconHelperTest {
 

@@ -1,7 +1,5 @@
 package io.github.vveird.stream.deck.device.hid4java;
 
-import java.awt.GraphicsEnvironment;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -134,6 +132,10 @@ public class StreamDeckDevices implements HidServicesListener {
 	public static IStreamDeck getStreamDeck() {
 		HidDeviceWrapper hidW = connectedDecks.values().stream().findFirst().orElse(null);
 		return hidW != null ? new SoftStreamDeck(hidW.getId(), new StreamDeck(hidW, 90, 15), enableSoftwareStreamDeck) : null;
+	}
+
+	public static IStreamDeck emulateStreamDeck() {
+		return new SoftStreamDeck("soft", null, false);
 	}
 
 	@Override

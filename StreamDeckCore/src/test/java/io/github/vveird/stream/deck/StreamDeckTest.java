@@ -1,4 +1,4 @@
-package de.rcblum.stream.deck;
+package io.github.vveird.stream.deck;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -17,16 +17,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class TestStreamDeck {
-	private static final Logger LOGGER = LoggerFactory.getLogger(TestStreamDeck.class);
+public class StreamDeckTest {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(StreamDeckTest.class);
 
 	static IStreamDeck sd = null;
 
 	@BeforeAll
 	public static void init() {
 		System.out.println("------------------------- INIT --------------------------");
-		StreamDeckDevices.enableSoftwareStreamDeck();
-		sd = StreamDeckDevices.getStreamDeck();
+//		StreamDeckDevices.enableSoftwareStreamDeck();
+//		sd = StreamDeckDevices.getStreamDeck();
+		sd = StreamDeckDevices.emulateStreamDeck();
+
 	}
 
 	@Test
@@ -82,7 +85,7 @@ public class TestStreamDeck {
 		sd = null;
 	}
 
-	class ButtonListener implements StreamKeyListener {
+	private static class ButtonListener implements StreamKeyListener {
 		ConcurrentLinkedQueue<KeyEvent> event = new ConcurrentLinkedQueue<>();
 
 		@Override
