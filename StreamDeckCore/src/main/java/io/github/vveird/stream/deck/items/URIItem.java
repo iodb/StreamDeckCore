@@ -5,13 +5,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import io.github.vveird.stream.deck.device.general.StreamDeck;
 import io.github.vveird.stream.deck.event.KeyEvent;
 import io.github.vveird.stream.deck.util.IconPackage;
 import io.github.vveird.stream.deck.util.SDImage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This handle can be registered with the {@link StreamDeck} and will browse
@@ -48,7 +47,7 @@ import io.github.vveird.stream.deck.util.SDImage;
  */
 public class URIItem extends AbstractStreamItem {
 
-	Logger logger = LogManager.getLogger(URIItem.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(URIItem.class);
 
 	private URI uri = null;
 
@@ -110,8 +109,7 @@ public class URIItem extends AbstractStreamItem {
 		            desktop.browse(this.uri);
 			    }
 		} catch (IOException e) {
-			logger.error(event.getKeyId() + ": Could nod load URI " + this.uri);
-			logger.error(e);
+			LOGGER.error(event.getKeyId() + ": Could nod load URI " + this.uri, e);
 		}
 	}
 

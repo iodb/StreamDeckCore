@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hid4java.HidDevice;
 import org.hid4java.HidManager;
 import org.hid4java.HidServices;
@@ -20,6 +18,8 @@ import io.github.vveird.stream.deck.device.general.IStreamDeck;
 import io.github.vveird.stream.deck.device.general.SoftStreamDeck;
 import io.github.vveird.stream.deck.device.general.StreamDeck;
 import io.github.vveird.stream.deck.device.hid4java.listener.StreamDeckAttachListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -61,7 +61,7 @@ public class StreamDeckDevices implements HidServicesListener {
 	 */
 	private static boolean enableSoftwareStreamDeck = true;
 
-	private static final Logger LOGGER = LogManager.getLogger(StreamDeckDevices.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StreamDeckDevices.class);
 
 	public static final short VENDOR_ID = 4057;
 

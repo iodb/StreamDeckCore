@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hid4java.HidDevice;
 
 import io.github.vveird.stream.deck.device.hid4java.HidDeviceWrapper;
@@ -21,6 +19,8 @@ import io.github.vveird.stream.deck.event.KeyEvent.Type;
 import io.github.vveird.stream.deck.items.StreamItem;
 import io.github.vveird.stream.deck.util.IconHelper;
 import io.github.vveird.stream.deck.util.SDImage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides low level access to a connected stream deck. Allows to do the
@@ -78,7 +78,7 @@ import io.github.vveird.stream.deck.util.SDImage;
  */
 public class StreamDeck implements InputReportListener, IStreamDeck {
 	
-	private static final Logger LOGGER = LogManager.getLogger(StreamDeck.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StreamDeck.class);
 
 	/**
 	 * Job that is submitted, when the Method {@link StreamDeck#setBrightness(int)} is called.<br>
@@ -184,8 +184,7 @@ public class StreamDeck implements InputReportListener, IStreamDeck {
 					try {
 						task.run();
 					} catch (Exception e) {
-						LOGGER.error("Error sending the following command-class th the esd: " + task.getClass() );
-						LOGGER.error(e);
+						LOGGER.error("Error sending the following command-class th the esd: " + task.getClass(), e);
 					}
 				}
 				if (System.nanoTime()-t < 1_000)

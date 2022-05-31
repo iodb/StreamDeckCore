@@ -1,12 +1,11 @@
 package io.github.vveird.stream.deck.items;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import io.github.vveird.stream.deck.device.general.StreamDeck;
 import io.github.vveird.stream.deck.event.KeyEvent;
 import io.github.vveird.stream.deck.util.IconPackage;
 import io.github.vveird.stream.deck.util.SDImage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This handle can be registered with the {@link StreamDeck} and will execute
@@ -43,7 +42,7 @@ import io.github.vveird.stream.deck.util.SDImage;
  */
 public class ExecutableItem extends AbstractStreamItem {
 
-	Logger logger = LogManager.getLogger(ExecutableItem.class);
+	private static final Logger logger = LoggerFactory.getLogger(ExecutableItem.class);
 
 	private String pathToExecutable = null;
 
@@ -103,8 +102,7 @@ public class ExecutableItem extends AbstractStreamItem {
 		try {
 			runtime.exec(this.pathToExecutable);
 		} catch (Exception e) {
-			logger.error(event.getKeyId() + ": Could nod execute " + this.pathToExecutable);
-			logger.error(e);
+			logger.error(event.getKeyId() + ": Could nod execute " + this.pathToExecutable, e);
 		}
 	}
 

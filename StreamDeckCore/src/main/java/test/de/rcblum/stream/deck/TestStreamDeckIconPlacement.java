@@ -1,12 +1,12 @@
 package test.de.rcblum.stream.deck;
 
+import io.github.vveird.stream.deck.device.general.IStreamDeck;
+import io.github.vveird.stream.deck.device.hid4java.StreamDeckDevices;
+import io.github.vveird.stream.deck.items.ExecutableItem;
+import io.github.vveird.stream.deck.util.IconHelper;
+
 import java.io.File;
 import java.io.IOException;
-
-import de.rcblum.stream.deck.device.general.IStreamDeck;
-import de.rcblum.stream.deck.device.hid4java.StreamDeckDevices;
-import de.rcblum.stream.deck.items.ExecutableItem;
-import de.rcblum.stream.deck.util.IconHelper;
 
 /**
  * Tests brightness and all keys of all connected stream deck

@@ -6,17 +6,16 @@ import java.net.URISyntaxException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import de.rcblum.stream.deck.StreamDeckController;
-import de.rcblum.stream.deck.device.general.IStreamDeck;
-import de.rcblum.stream.deck.device.hid4java.StreamDeckDevices;
-import de.rcblum.stream.deck.items.ExecutableItem;
-import de.rcblum.stream.deck.items.FolderItem;
-import de.rcblum.stream.deck.items.StreamItem;
-import de.rcblum.stream.deck.items.animation.AnimationStack;
-import de.rcblum.stream.deck.util.IconHelper;
-import de.rcblum.stream.deck.util.IconPackage;
-import de.rcblum.stream.deck.util.SDImage;
+import io.github.vveird.stream.deck.StreamDeckController;
+import io.github.vveird.stream.deck.device.general.IStreamDeck;
+import io.github.vveird.stream.deck.device.hid4java.StreamDeckDevices;
+import io.github.vveird.stream.deck.items.ExecutableItem;
+import io.github.vveird.stream.deck.items.FolderItem;
+import io.github.vveird.stream.deck.items.StreamItem;
+import io.github.vveird.stream.deck.items.animation.AnimationStack;
+import io.github.vveird.stream.deck.util.IconHelper;
+import io.github.vveird.stream.deck.util.IconPackage;
+import io.github.vveird.stream.deck.util.SDImage;
 
 public class TestAnimationStack {
 	public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {

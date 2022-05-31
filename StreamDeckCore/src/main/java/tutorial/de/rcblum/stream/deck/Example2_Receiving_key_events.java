@@ -1,9 +1,9 @@
 package tutorial.de.rcblum.stream.deck;
 
-import de.rcblum.stream.deck.device.general.IStreamDeck;
-import de.rcblum.stream.deck.device.hid4java.StreamDeckDevices;
-import de.rcblum.stream.deck.event.KeyEvent;
-import de.rcblum.stream.deck.event.StreamKeyListener;
+import io.github.vveird.stream.deck.device.general.IStreamDeck;
+import io.github.vveird.stream.deck.device.hid4java.StreamDeckDevices;
+import io.github.vveird.stream.deck.event.KeyEvent;
+import io.github.vveird.stream.deck.event.StreamKeyListener;
 
 import java.io.IOException;
 

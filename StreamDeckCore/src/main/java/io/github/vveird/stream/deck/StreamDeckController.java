@@ -2,9 +2,6 @@ package io.github.vveird.stream.deck;
 
 import java.util.Objects;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import io.github.vveird.stream.deck.device.general.IStreamDeck;
 import io.github.vveird.stream.deck.event.KeyEvent;
 import io.github.vveird.stream.deck.event.StreamKeyListener;
@@ -15,6 +12,8 @@ import io.github.vveird.stream.deck.items.listeners.AnimationListener;
 import io.github.vveird.stream.deck.items.listeners.IconUpdateListener;
 import io.github.vveird.stream.deck.util.IconHelper;
 import io.github.vveird.stream.deck.util.SDImage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Can be used to hand over control over the stream deck by providing a "folder"
@@ -52,7 +51,7 @@ import io.github.vveird.stream.deck.util.SDImage;
  */
 public class StreamDeckController implements StreamKeyListener, IconUpdateListener, AnimationListener {
 	
-	private static final Logger LOGGER = LogManager.getLogger(StreamDeckController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StreamDeckController.class);
 
 	/**
 	 * Sets the key dead zone for key events, default 25 ms.

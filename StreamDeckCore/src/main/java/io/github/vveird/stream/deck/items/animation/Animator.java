@@ -9,14 +9,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import io.github.vveird.stream.deck.device.general.IStreamDeck;
 import io.github.vveird.stream.deck.event.KeyEvent;
 import io.github.vveird.stream.deck.event.StreamKeyListener;
 import io.github.vveird.stream.deck.items.listeners.AnimationListener;
 import io.github.vveird.stream.deck.util.SDImage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Controller that handles the animation of a key.
@@ -58,7 +57,7 @@ import io.github.vveird.stream.deck.util.SDImage;
  */
 public class Animator implements StreamKeyListener, Runnable {
 
-	Logger logger = LogManager.getLogger(Animator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Animator.class);
 	
 	Map<IStreamDeck, Animator[]> animators = new HashMap<>();
 	
@@ -123,7 +122,7 @@ public class Animator implements StreamKeyListener, Runnable {
 	 *            behavior and frames of the animation
 	 */
 	public Animator(IStreamDeck streamDeck, int keyIndex, AnimationStack animation) {
-		logger.debug(keyIndex + ": New animator");
+		LOGGER.debug(keyIndex + ": New animator");
 		this.streamDeck = Objects.requireNonNull(streamDeck);
 		this.keyIndex = keyIndex;
 		synchronized (syncLock) {
@@ -133,7 +132,7 @@ public class Animator implements StreamKeyListener, Runnable {
 			animators.get(streamDeck)[this.keyIndex] = this;
 		}
 		this.animation = animation;
-		logger.debug(this.keyIndex + ": Autoplay: " + this.animation.autoPlay());
+		LOGGER.debug(this.keyIndex + ": Autoplay: " + this.animation.autoPlay());
 		if (this.animation.autoPlay())
 			this.start();
 	}
@@ -152,13 +151,13 @@ public class Animator implements StreamKeyListener, Runnable {
 	 */
 	public void onKeyEvent(KeyEvent event) {
 		boolean triggered = this.animation.isTriggered(event.getType());
-		logger.debug(this.keyIndex + ": Key event received [type:triggered:valid_key_id:already_running]: ["
+		LOGGER.debug(this.keyIndex + ": Key event received [type:triggered:valid_key_id:already_running]: ["
 				+ event.getType() + ":" + triggered + ":" + (event.getKeyId() == keyIndex) + ":"
 				+ (this.scheduler == null) + "]");
 		if (triggered && event.getKeyId() == keyIndex && this.scheduler == null) {
 			this.start();
 		} else if (!triggered && event.getKeyId() == keyIndex && this.scheduler != null) {
-			logger.debug(this.keyIndex + ": Stop animation, wait for completion: " + this.stopAfterAnimation);
+			LOGGER.debug(this.keyIndex + ": Stop animation, wait for completion: " + this.stopAfterAnimation);
 			this.stop(this.animation.endAnimationImmediate());
 		}
 	}
@@ -291,7 +290,7 @@ public class Animator implements StreamKeyListener, Runnable {
 	 * Fires a stop event call to all listeners
 	 */
 	private void fireOnStop() {
-		logger.debug(this.keyIndex + ": Inform listener about stopping the animation");
+		LOGGER.debug(this.keyIndex + ": Inform listener about stopping the animation");
 		for (int i = 0; i < this.listeners.size(); i++) {
 			this.listeners.get(i).onAnimationStop(this.keyIndex);
 		}

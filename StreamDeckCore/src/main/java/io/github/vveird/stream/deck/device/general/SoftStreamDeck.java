@@ -21,10 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 import javax.swing.event.MouseInputAdapter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hid4java.HidDevice;
-
 import io.github.vveird.stream.deck.device.hid4java.HidDeviceWrapper;
 import io.github.vveird.stream.deck.event.KeyEvent;
 import io.github.vveird.stream.deck.event.StreamKeyListener;
@@ -32,6 +28,8 @@ import io.github.vveird.stream.deck.event.KeyEvent.Type;
 import io.github.vveird.stream.deck.items.StreamItem;
 import io.github.vveird.stream.deck.util.IconHelper;
 import io.github.vveird.stream.deck.util.SDImage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * MIT License
@@ -61,7 +59,7 @@ import io.github.vveird.stream.deck.util.SDImage;
  */
 public class SoftStreamDeck implements IStreamDeck {
 	
-	private static final Logger LOGGER = LogManager.getLogger(SoftStreamDeck.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SoftStreamDeck.class);
 	
 	private static List<SoftStreamDeck> instances = new ArrayList<>(5);
 	
@@ -83,7 +81,7 @@ public class SoftStreamDeck implements IStreamDeck {
 	
 	StreamItem[] keys = null;
 	
-	private List<StreamKeyListener> listerners;
+	private List<StreamKeyListener> listeners;
 	
 	private JFrame frame = null;
 
@@ -108,7 +106,7 @@ public class SoftStreamDeck implements IStreamDeck {
 	public SoftStreamDeck(String name, IStreamDeck streamDeck, boolean visible) {
 		this.streamDeck = streamDeck;
 		this.keys = new StreamItem[streamDeck != null ? this.streamDeck.getKeySize() : 15];
-		listerners = new ArrayList<>(4);
+		this.listeners = new ArrayList<>(4);
 		this.writeBuffer = IconHelper.getImageFromResource("/resources/sd-background.png");
 		this.drawBuffer = IconHelper.getImageFromResource("/resources/sd-background.png");
 		this.name = name;
@@ -167,13 +165,13 @@ public class SoftStreamDeck implements IStreamDeck {
 
 	@Override
 	public boolean addKeyListener(StreamKeyListener listener) {
-		boolean added = this.listerners.add(listener);
+		boolean added = this.listeners.add(listener);
 		return streamDeck != null ? streamDeck.addKeyListener(listener) : added;
 	}
 
 	@Override
 	public boolean removeKeyListener(StreamKeyListener listener) {
-		boolean removed = this.listerners.remove(listener);
+		boolean removed = this.listeners.remove(listener);
 		return streamDeck != null ? streamDeck.removeKeyListener(listener) : removed;
 	}
 
@@ -312,7 +310,8 @@ public class SoftStreamDeck implements IStreamDeck {
 	
 	private class WriteDaemon implements Runnable  {
 		
-		private final Logger logger = LogManager.getLogger(WriteDaemon.class);
+		private final Logger LOGGER = LoggerFactory.getLogger(WriteDaemon.class);
+
 		@Override
 		public void run() {
 			while(SoftStreamDeck.this.running) {
@@ -327,7 +326,7 @@ public class SoftStreamDeck implements IStreamDeck {
 				try {
 					Thread.sleep(1);
 				} catch (InterruptedException e) {
-					logger.error("SoftStreamDeck.WriteDaemon interrupted", e);
+					LOGGER.error("SoftStreamDeck.WriteDaemon interrupted", e);
 					Thread.currentThread().interrupt();
 				}
 			}
@@ -423,7 +422,7 @@ public class SoftStreamDeck implements IStreamDeck {
 					if (i < SoftStreamDeck.this.keys.length && SoftStreamDeck.this.keys[i] != null) {
 						SoftStreamDeck.this.keys[i].onKeyEvent(event);
 					}
-					SoftStreamDeck.this.listerners.stream().forEach(l -> 
+					SoftStreamDeck.this.listeners.stream().forEach(l ->
 						{
 							try {
 								l.onKeyEvent(event);

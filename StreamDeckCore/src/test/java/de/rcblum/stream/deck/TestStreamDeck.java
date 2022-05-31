@@ -5,21 +5,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import io.github.vveird.stream.deck.device.general.IStreamDeck;
+import io.github.vveird.stream.deck.device.hid4java.StreamDeckDevices;
+import io.github.vveird.stream.deck.event.KeyEvent;
+import io.github.vveird.stream.deck.event.StreamKeyListener;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import de.rcblum.stream.deck.device.general.IStreamDeck;
-import de.rcblum.stream.deck.device.hid4java.StreamDeckDevices;
-import de.rcblum.stream.deck.event.KeyEvent;
-import de.rcblum.stream.deck.event.StreamKeyListener;
 
 public class TestStreamDeck {
-	private static Logger log = LogManager.getLogger(TestStreamDeck.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TestStreamDeck.class);
 
 	static IStreamDeck sd = null;
 

@@ -4,11 +4,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hid4java.HidDevice;
 
 import io.github.vveird.stream.deck.device.hid4java.listener.InputReportListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * MIT License
  * 
@@ -37,7 +38,7 @@ import io.github.vveird.stream.deck.device.hid4java.listener.InputReportListener
  */
 public class HidDeviceWrapper {
 	
-	private static final Logger LOGGER = LogManager.getLogger(HidDeviceWrapper.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(HidDeviceWrapper.class);
 
 	private HidDevice device = null;
 	
@@ -111,7 +112,7 @@ public class HidDeviceWrapper {
 	}
 
 	
-	public short getProductId() {
+	public int getProductId() {
 		// TODO Auto-generated method stub
 		return device.getProductId();
 	}
@@ -141,7 +142,7 @@ public class HidDeviceWrapper {
 	}
 
 	
-	public short getVendorId() {
+	public int getVendorId() {
 		// TODO Auto-generated method stub
 		return device.getVendorId();
 	}

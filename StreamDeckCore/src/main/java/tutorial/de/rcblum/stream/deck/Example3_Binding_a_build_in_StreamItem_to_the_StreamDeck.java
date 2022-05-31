@@ -1,11 +1,11 @@
 package tutorial.de.rcblum.stream.deck;
 
-import de.rcblum.stream.deck.device.general.IStreamDeck;
-import de.rcblum.stream.deck.device.hid4java.StreamDeckDevices;
-import de.rcblum.stream.deck.items.ExecutableItem;
-import de.rcblum.stream.deck.items.RunnableItem;
-import de.rcblum.stream.deck.util.IconHelper;
-import de.rcblum.stream.deck.util.SDImage;
+import io.github.vveird.stream.deck.device.general.IStreamDeck;
+import io.github.vveird.stream.deck.device.hid4java.StreamDeckDevices;
+import io.github.vveird.stream.deck.items.ExecutableItem;
+import io.github.vveird.stream.deck.items.RunnableItem;
+import io.github.vveird.stream.deck.util.IconHelper;
+import io.github.vveird.stream.deck.util.SDImage;
 
 import java.io.File;
 import java.io.IOException;

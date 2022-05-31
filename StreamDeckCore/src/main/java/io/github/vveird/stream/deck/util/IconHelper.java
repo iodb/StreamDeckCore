@@ -34,8 +34,8 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.JLabel;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -86,7 +86,7 @@ public class IconHelper {
 
 	public static final String TEMP_BLACK_ICON = "temp://BLACK_ICON";
 
-	private static Logger logger = LogManager.getLogger(IconHelper.class);
+	private static Logger logger = LoggerFactory.getLogger(IconHelper.class);
 
 	public static final BufferedImage FRAME = getImageFromResource("/resources/icons/frame.png");
 

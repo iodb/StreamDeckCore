@@ -2,14 +2,14 @@ package io.github.vveird.stream.deck.items;
 
 import java.util.Arrays;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import io.github.vveird.stream.deck.items.animation.AnimationStack;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PagedFolderItem extends FolderItem {
 
-	private static Logger logger = LogManager.getLogger(PagedFolderItem.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PagedFolderItem.class);
 
 	public PagedFolderItem(String folderName, StreamItem parent, PagedFolderItem previous, StreamItem[] children, int keyCount) {
 		super(folderName, parent, new StreamItem[15]);
@@ -35,7 +35,7 @@ public class PagedFolderItem extends FolderItem {
 			this.getChildren()[11] = new PageItem(previous, "Previous");
 		}
 		if (countTotal > maxItems && children.length-childIndex > 0) {
-			logger.debug("Create next page for " + this.getText());
+			LOGGER.debug("Create next page for " + this.getText());
 			// Create children for next page
 			StreamItem[] nextPageChildren = Arrays.copyOfRange(children, childIndex, children.length);
 			// Create next page

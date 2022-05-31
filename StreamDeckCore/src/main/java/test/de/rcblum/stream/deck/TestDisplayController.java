@@ -1,12 +1,12 @@
 package test.de.rcblum.stream.deck;
 
-import java.io.IOException;
+import io.github.vveird.stream.deck.StreamDeckController;
+import io.github.vveird.stream.deck.device.general.IStreamDeck;
+import io.github.vveird.stream.deck.device.hid4java.StreamDeckDevices;
+import io.github.vveird.stream.deck.items.FolderItem;
+import io.github.vveird.stream.deck.items.StreamItem;
 
-import de.rcblum.stream.deck.StreamDeckController;
-import de.rcblum.stream.deck.device.general.IStreamDeck;
-import de.rcblum.stream.deck.device.hid4java.StreamDeckDevices;
-import de.rcblum.stream.deck.items.FolderItem;
-import de.rcblum.stream.deck.items.StreamItem;
+import java.io.IOException;
 
 public class TestDisplayController {
 	public static void main(String[] args) throws IOException, InterruptedException {
